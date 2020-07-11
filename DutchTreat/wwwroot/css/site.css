@@ -73,3 +73,14 @@ ul.product-props li{
     .popup-form input[type=checkbox], .popup-form input[type=submit]{
         width:auto; /*zrob jak najmniejsze*/
     }
+
+menu li {
+    display:inline;
+}
+
+menu li::after {  /*Oznacz że zawsze po li w menu chce coś zrobić*/
+    content: ' |';
+}
+menu li:last-of-type::after { /*oznacza co zrobić po ostatnim typu li*/
+    content: '';
+}
