@@ -1,17 +1,16 @@
 ﻿/*CSS body góry do dołu jadą*/
 
-
-body {
+/*body {
     font-family: 'Segoe UI',Verdana, Geneva, Tahoma, sans-serif;
-}
+}*/
 
 /* to jest bardziej specyficzne wiec nie zostanie nadpisane stylem dla zwyklego input*/
-input[type=submit] { /*tylko dla input typu submit*/
-    width: auto
+/*input[type=submit] {*/ /*tylko dla input typu submit*/
+    /*width: auto
 }
 
-input, textarea { /*Dla obu selectorów po przecinku ile chcemy*/
-    font-size: 18px;
+input, textarea {*/ /*Dla obu selectorów po przecinku ile chcemy*/
+    /*font-size: 18px;
     width: 200px;
 }
 
@@ -19,17 +18,17 @@ label {
     font-size: 16px;
 }
 
-#theForm { /* id="xxxx"*/
-    background-color:#dfdfdf
+#theForm {*/ /* id="xxxx"*/
+    /*background-color:#dfdfdf
 }
 
-#theForm input[type=submit]{ /* wewnątrz elementu - input wenątrz theForm gdy jest spacja miedzy elementami*/
-    background-color:green;
+#theForm input[type=submit]{*/ /* wewnątrz elementu - input wenątrz theForm gdy jest spacja miedzy elementami*/
+    /*background-color:green;
     color:white;
 }
 
-ul.product-props { /* class="xxxx" - gdy nie ma spacji to ul typu product-props*/
-    font-size:small;
+ul.product-props {*/ /* class="xxxx" - gdy nie ma spacji to ul typu product-props*/
+    /*font-size:small;
 }
 
 ul.product-props li{
@@ -38,20 +37,20 @@ ul.product-props li{
 
 .product-info{
     border:1px solid grey;
-    display:inline-block; /*zmniejsza ramke do wielkosci obrazka - w przypadku block jest na cala szerokosc strony*/
-    padding:8px 2px; /*top right down left   gdy 2 wartości to :top bottom -- padding jest wśrodku border*/
-    margin: 2px;/* margin jest na zewnatrz border*/
-    width:450px;
+    display:inline-block;*/ /*zmniejsza ramke do wielkosci obrazka - w przypadku block jest na cala szerokosc strony*/
+    /*padding:8px 2px;*/ /*top right down left   gdy 2 wartości to :top bottom -- padding jest wśrodku border*/
+    /*margin: 2px;*//* margin jest na zewnatrz border*/
+    /*width:450px;
     background-color: lightgray;
     border-radius:5px;
 }
 
 .product-info img{
     margin: 3px;
-    float:left; /*Powoduje ze nie jest pod spodem*/
-    border:1px solid black;
-    max-width: 150px; /*maxymalny rozmiar obrazka*/
-}
+    float:left;*/ /*Powoduje ze nie jest pod spodem*/
+    /*border:1px solid black;
+    max-width: 150px;*/ /*maxymalny rozmiar obrazka*/
+/*}
 
 #loginToggle{
     cursor:pointer;
@@ -66,21 +65,21 @@ ul.product-props li{
 }
     .popup-form label {
         width: 150px;
-        display: inline-block;
+        display: inline-block;*/
         /*zeby width dzialal*/
-    }
+    /*}
 
     .popup-form input[type=checkbox], .popup-form input[type=submit]{
-        width:auto; /*zrob jak najmniejsze*/
-    }
+        width:auto;*/ /*zrob jak najmniejsze*/
+    /*}
 
 menu li {
     display:inline;
 }
 
-menu li::after {  /*Oznacz że zawsze po li w menu chce coś zrobić*/
-    content: ' |';
+menu li::after {*/  /*Oznacz że zawsze po li w menu chce coś zrobić*/
+    /*content: ' |';
 }
-menu li:last-of-type::after { /*oznacza co zrobić po ostatnim typu li*/
-    content: '';
-}
+menu li:last-of-type::after {*/ /*oznacza co zrobić po ostatnim typu li*/
+    /*content: '';
+}*/
