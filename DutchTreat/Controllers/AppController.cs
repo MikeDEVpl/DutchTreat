@@ -1,9 +1,11 @@
-﻿using DutchTreat.Services;
+﻿using DutchTreat.Data;
+using DutchTreat.Services;
 using DutchTreat.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
 
 namespace DutchTreat.Controllers
@@ -11,10 +13,12 @@ namespace DutchTreat.Controllers
     public class AppController : Controller
     {
         private readonly IMailService _mailService;
+        private readonly IDutchRepository _repository;
 
-        public AppController(IMailService mailService)
+        public AppController(IMailService mailService,IDutchRepository repository)
         {
             _mailService = mailService;
+            _repository = repository;
         }
         public IActionResult Index()
         {
@@ -50,6 +54,20 @@ namespace DutchTreat.Controllers
             ViewBag.Title = "About Us";
 
             return View();
+        }
+
+        public IActionResult Shop()
+        {
+            //var results = _context.Products
+            //    .OrderBy(p => p.Category)
+            //    .ToList();
+            //To samo w linq - to List można dać pózniej wtedy results jest jakby tylko query
+            //var results = from p in _context.Products
+            //              orderby p.Category
+            //               select p;
+            var results = _repository.GetAllProducts();
+
+            return View(results);
         }
     }
 }
