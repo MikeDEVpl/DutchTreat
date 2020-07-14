@@ -1,4 +1,5 @@
 ﻿using DutchTreat.Data.Entities;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -18,6 +19,27 @@ namespace DutchTreat.Data
             _ctx = ctx;
         }
 
+        public void AddEntity(object model)
+        {
+            _ctx.Add(model);
+        }
+
+        public IEnumerable<Order> GetAllOrders(bool includeItems) // include items bedzie parameterm w query stringu
+        {
+            if (includeItems)
+            {
+                return _ctx.Orders
+                    .Include(o => o.Items)
+                    .ThenInclude(i => i.Product)
+                    .ToList(); // Include dodaje itemsy do wyjsciowej listy orderow
+            }
+            else
+            {
+                return _ctx.Orders
+                    .ToList();
+            }
+        }
+
         public IEnumerable<Product> GetAllProducts()
         {
             //Przyklad poprawnego uzycia logowania
@@ -31,6 +53,15 @@ namespace DutchTreat.Data
                 _logger.LogError($"Failed to get all products: {ex}");
                 return null;
             }
+        }
+
+        public Order GetOrderById(int id)
+        {
+            return _ctx.Orders
+                 .Include(o => o.Items)
+                 .ThenInclude(i => i.Product)
+                 .Where(o => o.Id == id)
+                 .FirstOrDefault();
         }
 
         public IEnumerable<Product> GetProductsByCategory(string category)
