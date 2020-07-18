@@ -1,0 +1,123 @@
+﻿using Microsoft.Extensions.Configuration;
+using DutchTreat.Data.Entities;
+using DutchTreat.ViewModels;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
+using Microsoft.IdentityModel.JsonWebTokens;
+using Microsoft.IdentityModel.Tokens;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Runtime.CompilerServices;
+using System.Security.Claims;
+using System.Text;
+using System.Threading.Tasks;
+using System.IdentityModel.Tokens.Jwt;
+using JwtRegisteredClaimNames = Microsoft.IdentityModel.JsonWebTokens.JwtRegisteredClaimNames;
+
+namespace DutchTreat.Controllers
+{
+    public class AccountController : Controller
+    {
+        private readonly ILogger<AccountController> _logger;
+        private readonly SignInManager<StoreUser> _signInManager;
+        private readonly UserManager<StoreUser> _userManager;
+        private readonly IConfiguration _config;
+
+        public AccountController(ILogger<AccountController> logger,
+            SignInManager<StoreUser> signInManager,
+            UserManager<StoreUser> userManager,
+            IConfiguration config)
+        {
+            _logger = logger;
+            _signInManager = signInManager;
+            _userManager = userManager;
+            _config = config;
+        }
+
+        public IActionResult Login()
+        {
+            if (this.User.Identity.IsAuthenticated)
+            {
+                return RedirectToAction("Index", "App");
+            }
+            return View();
+        }
+        [HttpPost]
+        public async Task<IActionResult> Login(LoginViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var result = await _signInManager.PasswordSignInAsync(model.Username,
+                    model.Password,
+                    model.RememberMe,
+                    false);
+                if (result.Succeeded)
+                {
+                    if (Request.Query.Keys.Contains("ReturnUrl")) // W przypadku gdy request zawiera return url
+                    {                                               // w query stringu
+                        return RedirectToAction(Request.Query["ReturnUrl"].First());
+                    }
+                    else
+                    {
+                        return RedirectToAction("Shop", "App");
+                    }
+                }
+            }
+            ModelState.AddModelError("","Failed to login"); // inwalidacja modelu
+            return View(); //powrót do logowania
+        }
+
+        public async Task<IActionResult> Logout()
+        {
+            await _signInManager.SignOutAsync();
+            return RedirectToAction("index", "App");
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CreateToken([FromBody] LoginViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = await _userManager.FindByNameAsync(model.Username);
+                if (user != null)
+                {
+                    var result = await _signInManager.CheckPasswordSignInAsync(user, model.Password, false);
+
+                    if (result.Succeeded)
+                    {
+                        //Create token
+                        var claims = new[]
+                        {
+                            new Claim(JwtRegisteredClaimNames.Sub,user.Email),
+                            new Claim(JwtRegisteredClaimNames.Jti,Guid.NewGuid().ToString()),
+                            new Claim(JwtRegisteredClaimNames.UniqueName,user.UserName)
+                        };
+
+                        var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Tokens:Key"])); //z config.json
+
+                        var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+
+                        var token = new JwtSecurityToken(
+                            _config["Tokens:Issuer"],
+                            _config["Tokens:Audience"],
+                            claims,
+                            expires: DateTime.UtcNow.AddMinutes(30),
+                            signingCredentials: creds
+                            );
+
+                        var results = new
+                        {
+                            token = new JwtSecurityTokenHandler().WriteToken(token),
+                            exipration = token.ValidTo
+                        };
+                        return Created("", token);
+                    }
+                }
+            }
+
+            return BadRequest();
+        }
+    }
+}

@@ -40,6 +40,24 @@ namespace DutchTreat.Data
             }
         }
 
+        public IEnumerable<Order> GetAllOrdersbyUser(string username, bool includeItems)
+        {
+            if (includeItems)
+            {
+                return _ctx.Orders
+                    .Where(o => o.User.UserName == username)
+                    .Include(o => o.Items)
+                    .ThenInclude(i => i.Product)
+                    .ToList(); // Include dodaje itemsy do wyjsciowej listy orderow
+            }
+            else
+            {
+                return _ctx.Orders
+                    .Where(o => o.User.UserName == username)
+                    .ToList();
+            }
+        }
+
         public IEnumerable<Product> GetAllProducts()
         {
             //Przyklad poprawnego uzycia logowania
@@ -55,12 +73,12 @@ namespace DutchTreat.Data
             }
         }
 
-        public Order GetOrderById(int id)
+        public Order GetOrderById(string username, int id)
         {
             return _ctx.Orders
                  .Include(o => o.Items)
                  .ThenInclude(i => i.Product)
-                 .Where(o => o.Id == id)
+                 .Where(o => o.Id == id && o.User.UserName == username)
                  .FirstOrDefault();
         }
 

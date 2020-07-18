@@ -29,7 +29,7 @@ namespace DutchTreat
             using (var scope = scopeFactory.CreateScope())
             {
                 var seeder = scope.ServiceProvider.GetService<DutchSeeder>();
-                seeder.Seed();
+                seeder.SeedAsync().Wait(); // wait powoduje ze czeka na koniec wywolania tak jakby nie bylo async
             }
         }
 

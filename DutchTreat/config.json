@@ -10,6 +10,11 @@
       "Default": "Information", //domyslny poziom logowania
       //"DutchTreat": "Information", //logger dutchtreat
       "Microsoft": "Warning" // kazdy loger zaczynajacy sie od Microsoft
+    },
+    "Tokens": {
+      "Key": "aaa",
+      "Issuer": "localhost",
+      "Audience": ""
     }
   }
 }

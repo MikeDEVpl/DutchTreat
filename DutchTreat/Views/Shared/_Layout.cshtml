@@ -10,7 +10,7 @@
 <body>
     <header class="container"> @* container-fluid rozciąga na całą szerokość strony*@
          <nav class="navbar navbar-dark bg-dark navbar-expand-md"> @*ciemny bg i bialy text. expand każe wyrownac menu do jednej linii dla sredniego ekranu*@
-            <h1 class="navbar-brand"<i class="fa fa-paint-brush"></i>>Welcome to Dutch treat</h1> @*navbar-brand specjalna klasa dla napisu w pasku menu. fa fa-icon dodaje ikone z font awesome*@
+            <h1 class="navbar-brand"><i class="fa fa-paint-brush"></i>>Welcome to Dutch treat</h1> @*navbar-brand specjalna klasa dla napisu w pasku menu. fa fa-icon dodaje ikone z font awesome*@
         <button class="navbar-toogler" data-toggle="collapse" data-target="#theMenu"> @*przełącznik menu*@
             <span class="navbar-toogler-icon"></span>@*hamburger menu*@
         </button> 
@@ -25,6 +25,22 @@
                 <li class="nav-item">
                     <a class="nav-link" asp-controller="App" asp-action="About">About</a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link" asp-controller="App" asp-action="Shop">Shop</a>
+                </li>
+
+                @if (User.Identity.IsAuthenticated)
+                {
+                    <li class="nav-item">
+                        <a class="nav-link" asp-controller="Account" asp-action="Logout">Log Out</a>
+                    </li>
+                }
+                else
+                {
+                    <li class="nav-item">
+                        <a class="nav-link" asp-controller="Account" asp-action="Login">Login</a>
+                    </li>
+                }
             </ul>
         </div>
         </nav>
