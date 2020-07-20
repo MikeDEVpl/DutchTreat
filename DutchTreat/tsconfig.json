@@ -1,0 +1,8 @@
+{
+  "include": [ "wwwroot/ts/**/*.ts" ], // wskazuje na folder z typescript
+  "compilerOptions": { //opcje kompilatora (transpilluj do es5
+    "target": "ES5",
+    "sourceMap": true //mapy do debugowania w przegl¹darce
+  }
+}
+//plik uzywany do kompilacji typescriptu
