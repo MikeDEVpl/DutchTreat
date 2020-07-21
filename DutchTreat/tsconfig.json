@@ -1,8 +1,18 @@
+/*
+  This is a "Solution Style" tsconfig.json file, and is used by editors and TypeScriptâ€™s language server to improve development experience.
+  It is not intended to be used to perform a compilation.
+
+  To learn more about this file see: https://angular.io/config/solution-tsconfig.
+*/
 {
-  "include": [ "wwwroot/ts/**/*.ts" ], // wskazuje na folder z typescript
-  "compilerOptions": { //opcje kompilatora (transpilluj do es5
-    "target": "ES5",
-    "sourceMap": true //mapy do debugowania w przegl¹darce
-  }
+  "files": [],
+  "references": [
+    {
+      "path": "./tsconfig.app.json"
+    },
+    {
+      "path": "./tsconfig.spec.json"
+    }
+  ],
+  "exclude": ["node_modules"] // dodane moze pomoze na bralk importu @angular
 }
-//plik uzywany do kompilacji typescriptu

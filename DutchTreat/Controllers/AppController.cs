@@ -66,9 +66,12 @@ namespace DutchTreat.Controllers
             //var results = from p in _context.Products
             //              orderby p.Category
             //               select p;
-            var results = _repository.GetAllProducts();
 
-            return View(results);
+            //niepotrzebne po dodaniu angulara
+            //var results = _repository.GetAllProducts();
+            //return View(results);
+
+            return View();
         }
     }
 }
